@@ -4,7 +4,790 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>航海英语学习应用</title>
-    <link rel="stylesheet" href="maritime-app/styles.css">
+    <style>
+        /* 航海英语学习应用 - 样式表 */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* ==================== 认证页面 ==================== */
+
+        #authPage {
+            display: none;
+            padding: 40px 20px;
+        }
+
+        #authPage.active {
+            display: block;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .auth-forms {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* ==================== 主页面 ==================== */
+
+        #mainPage {
+            display: none;
+        }
+
+        #mainPage.active {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-name {
+            font-size: 14px;
+        }
+
+        #logoutBtn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        #logoutBtn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .navigation {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-btn:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+
+        .nav-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .module {
+            display: none;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        /* ==================== 词汇学习模块 ==================== */
+
+        .vocabulary-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        #categoryFilter {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .word-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .word-english {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .word-pronunciation {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .word-details {
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .word-part {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .word-chinese {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .word-example {
+            font-size: 13px;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .progress-section {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .word-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        #btnKnown {
+            border-color: #52c41a;
+            color: #52c41a;
+        }
+
+        #btnKnown:hover {
+            background: #f6ffed;
+        }
+
+        #btnUnknown {
+            border-color: #ff4d4f;
+            color: #ff4d4f;
+        }
+
+        #btnUnknown:hover {
+            background: #fff1f0;
+        }
+
+        #pronounceBtn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        #pronounceBtn:hover {
+            background: #764ba2;
+        }
+
+        /* ==================== 口语练习模块 ==================== */
+
+        .speaking-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .speaking-word-card {
+            background: linear-gradient(135deg, #52c41a 0%, #1890ff 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .speaking-word-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .speaking-word {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .speaking-translation {
+            font-size: 16px;
+        }
+
+        .speaking-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-control {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #btnRecord {
+            background: #ff4d4f;
+            color: white;
+        }
+
+        #btnRecord:hover {
+            opacity: 0.9;
+        }
+
+        #btnStopRecord {
+            display: none;
+            background: #ff7a45;
+            color: white;
+        }
+
+        #btnPlayAudio {
+            background: #1890ff;
+            color: white;
+        }
+
+        #btnPlayAudio:hover {
+            opacity: 0.9;
+        }
+
+        #recordingInfo {
+            display: none;
+            text-align: center;
+            color: #ff4d4f;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        #recordingPlayback {
+            display: none;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .playback-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #btnPlayback,
+        #btnClear {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #btnPlayback {
+            background: #1890ff;
+            color: white;
+        }
+
+        #btnClear {
+            background: #ddd;
+            color: #666;
+        }
+
+        #speechScore {
+            display: none;
+            background: linear-gradient(135deg, #ffd89b 0%, #19ccff 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .score-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .score-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff4d4f;
+            margin-bottom: 10px;
+        }
+
+        .score-feedback {
+            font-size: 14px;
+            color: #666;
+        }
+
+        #btnNextSpeaking {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        #btnNextSpeaking:hover {
+            background: #764ba2;
+        }
+
+        /* ==================== 听力训练模块 ==================== */
+
+        .listening-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .listening-question-card {
+            background: linear-gradient(135deg, #ff7a45 0%, #ff49db 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #listeningQuestion {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #btnPlayListening {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #btnPlayListening:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+        }
+
+        .option-btn.correct {
+            background: #f6ffed;
+            border-color: #52c41a;
+            color: #52c41a;
+        }
+
+        .option-btn.incorrect {
+            background: #fff1f0;
+            border-color: #ff4d4f;
+            color: #ff4d4f;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        #listeningResult {
+            display: none;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #resultText {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        #btnNextListening {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        #btnNextListening:hover {
+            background: #764ba2;
+        }
+
+        /* ==================== 学习进度模块 ==================== */
+
+        .progress-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .progress-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        .category-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .category-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .category-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .category-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .recent-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-item .word {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .recent-item .time {
+            color: #999;
+        }
+
+        /* ==================== 响应式设计 ==================== */
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+
+            #mainPage.active {
+                height: auto;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .word-english {
+                font-size: 28px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                flex-wrap: wrap;
+            }
+
+            .navigation {
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                flex: 0 1 auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -220,7 +1003,585 @@
         </div>
     </div>
 
-    <script src="maritime-app/vocabulary.js"></script>
-    <script src="maritime-app/app.js"></script>
+    <script>
+        // 航海英语词汇数据库
+        const ALL_VOCABULARY = [
+            // 通用航海术语
+            { english: 'Port', pronunciation: '/pɔːrt/', category: '通用术语', part: 'n.', chinese: '港口', example: 'The ship is heading to the port.' },
+            { english: 'Starboard', pronunciation: '/ˈstɑːrbərd/', category: '通用术语', part: 'n.', chinese: '右舷', example: 'Turn to starboard to avoid the rocks.' },
+            { english: 'Bow', pronunciation: '/baʊ/', category: '通用术语', part: 'n.', chinese: '船头', example: 'The bow of the ship cuts through the water.' },
+            { english: 'Stern', pronunciation: '/stɜːrn/', category: '通用术语', part: 'n.', chinese: '船尾', example: 'The captain stands at the stern.' },
+            { english: 'Anchor', pronunciation: '/ˈæŋkər/', category: '通用术语', part: 'n.', chinese: '锚', example: 'Drop the anchor in the shallow water.' },
+            { english: 'Deck', pronunciation: '/dek/', category: '通用术语', part: 'n.', chinese: '甲板', example: 'Sailors work on the deck.' },
+            { english: 'Hull', pronunciation: '/hʌl/', category: '通用术语', part: 'n.', chinese: '船身', example: 'The hull is damaged by the collision.' },
+            { english: 'Cargo', pronunciation: '/ˈkɑːrɡoʊ/', category: '通用术语', part: 'n.', chinese: '货物', example: 'The ship is loaded with cargo.' },
+            { english: 'Crew', pronunciation: '/kruː/', category: '通用术语', part: 'n.', chinese: '船员', example: 'The crew of 50 sailed across the ocean.' },
+            { english: 'Navigation', pronunciation: '/ˌnævɪˈɡeɪʃn/', category: '通用术语', part: 'n.', chinese: '航行', example: 'Modern navigation uses GPS technology.' },
+
+            // 天气和海况
+            { english: 'Storm', pronunciation: '/stɔːrm/', category: '天气条件', part: 'n.', chinese: '风暴', example: 'A severe storm is approaching.' },
+            { english: 'Wave', pronunciation: '/weɪv/', category: '天气条件', part: 'n.', chinese: '波浪', example: 'Large waves can damage the ship.' },
+            { english: 'Wind', pronunciation: '/wɪnd/', category: '天气条件', part: 'n.', chinese: '风', example: 'The wind speed is 30 knots.' },
+            { english: 'Fog', pronunciation: '/fɔːɡ/', category: '天气条件', part: 'n.', chinese: '雾', example: 'Dense fog reduced visibility to 100 meters.' },
+            { english: 'Tide', pronunciation: '/taɪd/', category: '天气条件', part: 'n.', chinese: '潮汐', example: 'High tide occurs twice a day.' },
+            { english: 'Current', pronunciation: '/ˈkɜːrənt/', category: '天气条件', part: 'n.', chinese: '洋流', example: 'The current is strong in this area.' },
+            { english: 'Reef', pronunciation: '/riːf/', category: '天气条件', part: 'n.', chinese: '礁石', example: 'Avoid the coral reef.' },
+            { english: 'Squall', pronunciation: '/skwɔːl/', category: '天气条件', part: 'n.', chinese: '风暴', example: 'A sudden squall struck the ship.' },
+
+            // 船舶操作
+            { english: 'Hoist', pronunciation: '/hɔɪst/', category: '船舶操作', part: 'v.', chinese: '升起', example: 'Hoist the sails to catch the wind.' },
+            { english: 'Lower', pronunciation: '/ˈloʊər/', category: '船舶操作', part: 'v.', chinese: '放低', example: 'Lower the lifeboat.' },
+            { english: 'Moor', pronunciation: '/mɔːr/', category: '船舶操作', part: 'v.', chinese: '系泊', example: 'Moor the ship at the dock.' },
+            { english: 'Dock', pronunciation: '/dɑːk/', category: '船舶操作', part: 'v.', chinese: '停靠', example: 'The ship will dock in two hours.' },
+            { english: 'Berth', pronunciation: '/bɜːrθ/', category: '船舶操作', part: 'n.', chinese: '泊位', example: 'We need to find a berth for the ship.' },
+            { english: 'Helm', pronunciation: '/helm/', category: '船舶操作', part: 'n.', chinese: '舵', example: 'Take the helm and steer the ship.' },
+            { english: 'Steer', pronunciation: '/stɪr/', category: '船舶操作', part: 'v.', chinese: '操舵', example: 'Steer north by the compass.' },
+            { english: 'Course', pronunciation: '/kɔːrs/', category: '船舶操作', part: 'n.', chinese: '航向', example: 'Change course to avoid the storm.' },
+
+            // 紧急情况
+            { english: 'Distress', pronunciation: '/dɪˈstres/', category: '紧急情况', part: 'n.', chinese: '遇险', example: 'Send a distress signal immediately.' },
+            { english: 'Abandon ship', pronunciation: '/əˈbændən ʃɪp/', category: '紧急情况', part: 'phrase', chinese: '弃船', example: 'The captain ordered to abandon ship.' },
+            { english: 'Lifeboat', pronunciation: '/ˈlaɪfboʊt/', category: '紧急情况', part: 'n.', chinese: '救生艇', example: 'Get to the lifeboat immediately.' },
+            { english: 'Rescue', pronunciation: '/ˈreskjuː/', category: '紧急情况', part: 'n.', chinese: '救援', example: 'The rescue team arrived within minutes.' },
+            { english: 'Collision', pronunciation: '/kəˈlɪʒn/', category: '紧急情况', part: 'n.', chinese: '碰撞', example: 'There was a collision near the harbor.' },
+            { english: 'Leak', pronunciation: '/liːk/', category: '紧急情况', part: 'n.', chinese: '漏水', example: 'The hull has a serious leak.' },
+            { english: 'Injury', pronunciation: '/ˈɪndʒəri/', category: '紧急情况', part: 'n.', chinese: '受伤', example: 'There are several crew members with injuries.' },
+            { english: 'Medical', pronunciation: '/ˈmedɪkl/', category: '紧急情况', part: 'adj.', chinese: '医疗的', example: 'We need medical assistance immediately.' },
+
+            // 通讯术语
+            { english: 'Radio', pronunciation: '/ˈreɪdioʊ/', category: '通讯术语', part: 'n.', chinese: '无线电', example: 'Contact the harbor by radio.' },
+            { english: 'Channel', pronunciation: '/ˈtʃænl/', category: '通讯术语', part: 'n.', chinese: '频道', example: 'Switch to Channel 16 for emergencies.' },
+            { english: 'Transmit', pronunciation: '/trænzˈmɪt/', category: '通讯术语', part: 'v.', chinese: '传送', example: 'Transmit the message at once.' },
+            { english: 'Receive', pronunciation: '/rɪˈsiːv/', category: '通讯术语', part: 'v.', chinese: '接收', example: 'We receive the signal clearly.' },
+            { english: 'Signal', pronunciation: '/ˈsɪɡnəl/', category: '通讯术语', part: 'n.', chinese: '信号', example: 'The signal is weak.' },
+            { english: 'Message', pronunciation: '/ˈmesɪdʒ/', category: '通讯术语', part: 'n.', chinese: '信息', example: 'Important message from the captain.' },
+
+            // 基础航海
+            { english: 'Compass', pronunciation: '/ˈkʌmpəs/', category: '导航设备', part: 'n.', chinese: '指南针', example: 'Check the compass to verify the direction.' },
+            { english: 'Chart', pronunciation: '/tʃɑːrt/', category: '导航设备', part: 'n.', chinese: '海图', example: 'Study the chart before sailing.' },
+            { english: 'Latitude', pronunciation: '/ˈlætɪtuːd/', category: '导航设备', part: 'n.', chinese: '纬度', example: 'Our latitude is 40 degrees north.' },
+            { english: 'Longitude', pronunciation: '/ˈlɑːndʒɪtuːd/', category: '导航设备', part: 'n.', chinese: '经度', example: 'Mark the longitude on the map.' },
+            { english: 'Speed', pronunciation: '/spiːd/', category: '导航设备', part: 'n.', chinese: '速度', example: 'Reduce speed in shallow water.' },
+            { english: 'Depth', pronunciation: '/depθ/', category: '导航设备', part: 'n.', chinese: '深度', example: 'Check the depth of the water.' }
+        ];
+
+        // 航海英语学习应用主程序
+
+        // ============================================
+        // 状态管理
+        // ============================================
+
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('maritime_users')) || [];
+        let currentVocabularyIndex = 0;
+        let currentVocabularyList = ALL_VOCABULARY;
+        let userProgress = JSON.parse(localStorage.getItem('user_progress')) || {};
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordedAudio = null;
+
+        // ============================================
+        // 初始化应用
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            checkLoginStatus();
+            // 测试账号
+            initializeDemoAccount();
+        });
+
+        function initializeDemoAccount() {
+            const demoExists = users.some(u => u.email === 'demo@maritime.com');
+            if (!demoExists) {
+                users.push({
+                    id: Date.now(),
+                    username: 'Demo User',
+                    email: 'demo@maritime.com',
+                    password: '123456',
+                    createdAt: new Date().toISOString()
+                });
+                saveUsers();
+            }
+        }
+
+        // ============================================
+        // 事件监听器设置
+        // ============================================
+
+        function setupEventListeners() {
+            // 认证页面
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', switchAuthTab);
+            });
+
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+            // 导航
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', switchModule);
+            });
+
+            // 词汇学习
+            document.getElementById('categoryFilter').addEventListener('change', filterVocabulary);
+            document.getElementById('btnKnown').addEventListener('click', () => markWordStatus(true));
+            document.getElementById('btnUnknown').addEventListener('click', () => markWordStatus(false));
+            document.getElementById('pronounceBtn').addEventListener('click', pronounceWord);
+
+            // 口语练习
+            document.getElementById('btnRecord').addEventListener('click', startRecording);
+            document.getElementById('btnStopRecord').addEventListener('click', stopRecording);
+            document.getElementById('btnPlayAudio').addEventListener('click', playAudio);
+            document.getElementById('btnPlayback').addEventListener('click', playRecording);
+            document.getElementById('btnClear').addEventListener('click', clearRecording);
+            document.getElementById('btnNextSpeaking').addEventListener('click', nextSpeakingWord);
+
+            // 听力训练
+            document.getElementById('btnPlayListening').addEventListener('click', playListeningAudio);
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', handleListeningAnswer);
+            });
+            document.getElementById('btnNextListening').addEventListener('click', nextListeningQuestion);
+        }
+
+        // ============================================
+        // 认证功能
+        // ============================================
+
+        function switchAuthTab(e) {
+            const tab = e.target.dataset.tab;
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tab + 'Form').classList.add('active');
+            e.target.classList.add('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('current_user', JSON.stringify(user));
+                showMainPage();
+            } else {
+                alert('邮箱或密码错误！');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const password2 = document.getElementById('registerPassword2').value;
+
+            if (password !== password2) {
+                alert('密码不一致！');
+                return;
+            }
+
+            if (users.some(u => u.email === email)) {
+                alert('邮箱已被注册！');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password,
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            saveUsers();
+            currentUser = newUser;
+            localStorage.setItem('current_user', JSON.stringify(newUser));
+            showMainPage();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('current_user');
+            showAuthPage();
+        }
+
+        function checkLoginStatus() {
+            const saved = localStorage.getItem('current_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                showMainPage();
+            } else {
+                showAuthPage();
+            }
+        }
+
+        function showAuthPage() {
+            document.getElementById('authPage').classList.add('active');
+            document.getElementById('mainPage').classList.remove('active');
+        }
+
+        function showMainPage() {
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('mainPage').classList.add('active');
+            document.getElementById('userName').textContent = currentUser.username;
+            loadUserProgress();
+            switchModule({ target: document.querySelector('.nav-btn.active') });
+        }
+
+        // ============================================
+        // 数据持久化
+        // ============================================
+
+        function saveUsers() {
+            localStorage.setItem('maritime_users', JSON.stringify(users));
+        }
+
+        function loadUserProgress() {
+            const key = 'progress_' + currentUser.id;
+            userProgress = JSON.parse(localStorage.getItem(key)) || {
+                vocabulary: {},
+                statistics: {
+                    totalLearned: 0,
+                    totalMastered: 0,
+                    learningDays: 1,
+                    lastUpdate: new Date().toISOString()
+                }
+            };
+        }
+
+        function saveUserProgress() {
+            const key = 'progress_' + currentUser.id;
+            localStorage.setItem(key, JSON.stringify(userProgress));
+        }
+
+        // ============================================
+        // 模块切换
+        // ============================================
+
+        function switchModule(e) {
+            const module = e.target.dataset.module;
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.getElementById(module + 'Module').classList.add('active');
+
+            if (module === 'vocabulary') {
+                loadVocabulary();
+            } else if (module === 'speaking') {
+                loadSpeakingModule();
+            } else if (module === 'listening') {
+                loadListeningModule();
+            } else if (module === 'progress') {
+                loadProgressModule();
+            }
+        }
+
+        // ============================================
+        // 词汇学习模块
+        // ============================================
+
+        function filterVocabulary() {
+            const category = document.getElementById('categoryFilter').value;
+            if (category) {
+                currentVocabularyList = ALL_VOCABULARY.filter(v => v.category === category);
+            } else {
+                currentVocabularyList = ALL_VOCABULARY;
+            }
+            currentVocabularyIndex = 0;
+            loadVocabulary();
+        }
+
+        function loadVocabulary() {
+            if (currentVocabularyList.length === 0) {
+                currentVocabularyList = ALL_VOCABULARY;
+            }
+            displayVocabulary();
+        }
+
+        function displayVocabulary() {
+            if (currentVocabularyIndex >= currentVocabularyList.length) {
+                currentVocabularyIndex = 0;
+            }
+
+            const word = currentVocabularyList[currentVocabularyIndex];
+            
+            document.getElementById('wordEnglish').textContent = word.english;
+            document.getElementById('wordPronunciation').textContent = word.pronunciation;
+            document.getElementById('wordPart').textContent = word.part;
+            document.getElementById('wordChinese').textContent = word.chinese;
+            document.getElementById('wordExample').textContent = word.example;
+            
+            const progress = ((currentVocabularyIndex + 1) / currentVocabularyList.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('wordCounter').textContent = `${currentVocabularyIndex + 1}/${currentVocabularyList.length}`;
+        }
+
+        function pronounceWord() {
+            const word = currentVocabularyList[currentVocabularyIndex];
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word.english);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function markWordStatus(known) {
+            const word = currentVocabularyList[currentVocabularyIndex];
+            const wordId = word.english;
+            
+            if (!userProgress.vocabulary[wordId]) {
+                userProgress.vocabulary[wordId] = {
+                    known: false,
+                    learned: false,
+                    attempts: 0,
+                    lastReview: null
+                };
+            }
+            
+            userProgress.vocabulary[wordId].known = known;
+            userProgress.vocabulary[wordId].attempts++;
+            userProgress.vocabulary[wordId].lastReview = new Date().toISOString();
+            
+            if (known) {
+                userProgress.vocabulary[wordId].learned = true;
+                userProgress.statistics.totalMastered++;
+            }
+            userProgress.statistics.totalLearned++;
+            
+            saveUserProgress();
+            
+            currentVocabularyIndex++;
+            displayVocabulary();
+        }
+
+        // ============================================
+        // 口语练习模块
+        // ============================================
+
+        function loadSpeakingModule() {
+            const randomWord = currentVocabularyList[Math.floor(Math.random() * currentVocabularyList.length)];
+            document.getElementById('speakingWord').textContent = randomWord.english;
+            document.getElementById('speakingTranslation').textContent = randomWord.chinese;
+            pronounceSpeakingWord(randomWord.english);
+        }
+
+        function pronounceSpeakingWord(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (e) => {
+                    audioChunks.push(e.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    recordedAudio = new Blob(audioChunks, { type: 'audio/wav' });
+                    showRecordingPlayback();
+                };
+                
+                mediaRecorder.start();
+                document.getElementById('btnRecord').style.display = 'none';
+                document.getElementById('btnStopRecord').style.display = 'inline-block';
+                document.getElementById('recordingInfo').style.display = 'block';
+            }).catch(err => {
+                alert('无法访问麦克风：' + err.message);
+            });
+        }
+
+        function stopRecording() {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                document.getElementById('btnRecord').style.display = 'inline-block';
+                document.getElementById('btnStopRecord').style.display = 'none';
+                document.getElementById('recordingInfo').style.display = 'none';
+            }
+        }
+
+        function playRecording() {
+            if (recordedAudio) {
+                const audio = new Audio(URL.createObjectURL(recordedAudio));
+                audio.play();
+            }
+        }
+
+        function clearRecording() {
+            recordedAudio = null;
+            audioChunks = [];
+            document.getElementById('recordingPlayback').style.display = 'none';
+            document.getElementById('btnRecord').style.display = 'inline-block';
+        }
+
+        function showRecordingPlayback() {
+            document.getElementById('recordingPlayback').style.display = 'block';
+            // 模拟评分
+            const score = Math.floor(Math.random() * 40 + 60);
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('speechScore').style.display = 'block';
+        }
+
+        function nextSpeakingWord() {
+            clearRecording();
+            document.getElementById('speechScore').style.display = 'none';
+            loadSpeakingModule();
+        }
+
+        function playAudio() {
+            const word = document.getElementById('speakingWord').textContent;
+            pronounceSpeakingWord(word);
+        }
+
+        // ============================================
+        // 听力训练模块
+        // ============================================
+
+        function loadListeningQuestion() {
+            const word = currentVocabularyList[Math.floor(Math.random() * currentVocabularyList.length)];
+            
+            document.getElementById('listeningQuestion').textContent = `你将听到英文单词，请选择它的中文翻译`;
+            
+            // 生成选项
+            const options = [word.chinese];
+            while (options.length < 4) {
+                const randomWord = currentVocabularyList[Math.floor(Math.random() * currentVocabularyList.length)];
+                if (!options.includes(randomWord.chinese)) {
+                    options.push(randomWord.chinese);
+                }
+            }
+            
+            // 打乱顺序
+            options.sort(() => Math.random() - 0.5);
+            const correctAnswer = options.indexOf(word.chinese);
+            
+            // 保存答案到按钮
+            document.querySelectorAll('.option-btn').forEach((btn, index) => {
+                btn.textContent = String.fromCharCode(65 + index) + '. ' + options[index];
+                btn.dataset.correct = index === correctAnswer;
+                btn.classList.remove('selected', 'correct', 'incorrect');
+                btn.disabled = false;
+            });
+            
+            document.getElementById('listeningResult').style.display = 'none';
+            
+            // 播放单词
+            setTimeout(() => {
+                pronounceSpeakingWord(word.english);
+            }, 500);
+        }
+
+        function loadListeningModule() {
+            loadListeningQuestion();
+        }
+
+        function handleListeningAnswer(e) {
+            const isCorrect = e.target.dataset.correct === 'true';
+            
+            e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                if (btn.dataset.correct === 'true') {
+                    btn.classList.add('correct');
+                }
+                btn.disabled = true;
+            });
+            
+            const resultText = isCorrect ? '✅ 正确!' : '❌ 错误，请再试一次';
+            document.getElementById('resultText').textContent = resultText;
+            document.getElementById('listeningResult').style.display = 'block';
+        }
+
+        function nextListeningQuestion() {
+            loadListeningQuestion();
+        }
+
+        function playListeningAudio() {
+            const word = currentVocabularyList[Math.floor(Math.random() * currentVocabularyList.length)];
+            pronounceSpeakingWord(word.english);
+        }
+
+        // ============================================
+        // 学习进度模块
+        // ============================================
+
+        function loadProgressModule() {
+            updateProgressStats();
+            displayCategoryProgress();
+            displayRecentActivity();
+        }
+
+        function updateProgressStats() {
+            const totalWords = ALL_VOCABULARY.length;
+            const masteredCount = Object.values(userProgress.vocabulary).filter(v => v.learned).length;
+            const percentage = Math.round((masteredCount / totalWords) * 100);
+            
+            document.getElementById('totalWords').textContent = totalWords;
+            document.getElementById('masteredWords').textContent = masteredCount;
+            document.getElementById('progressPercentage').textContent = percentage + '%';
+            document.getElementById('learningDays').textContent = userProgress.statistics.learningDays || 1;
+        }
+
+        function displayCategoryProgress() {
+            const categories = [...new Set(ALL_VOCABULARY.map(v => v.category))];
+            const html = categories.map(category => {
+                const categoryWords = ALL_VOCABULARY.filter(v => v.category === category);
+                const mastered = categoryWords.filter(w => {
+                    const prog = userProgress.vocabulary[w.english];
+                    return prog && prog.learned;
+                }).length;
+                const percentage = Math.round((mastered / categoryWords.length) * 100);
+                
+                return `
+                    <div class="category-item">
+                        <div class="category-name">
+                            <span>${category}</span>
+                            <span>${mastered}/${categoryWords.length}</span>
+                        </div>
+                        <div class="category-progress-bar">
+                            <div class="category-progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('categoryProgress').innerHTML = html;
+        }
+
+        function displayRecentActivity() {
+            const recentWords = Object.entries(userProgress.vocabulary)
+                .sort((a, b) => new Date(b[1].lastReview) - new Date(a[1].lastReview))
+                .slice(0, 5);
+            
+            const html = recentWords.map(([word, data]) => {
+                const time = new Date(data.lastReview).toLocaleString('zh-CN');
+                return `
+                    <div class="recent-item">
+                        <span class="word">${word}</span>
+                        <span class="time">${time}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('recentList').innerHTML = html || '<p style="color: #999;">暂无学习记录</p>';
+        }
+
+        console.log('Maritime English App initialized');
+    </script>
 </body>
 </html>
