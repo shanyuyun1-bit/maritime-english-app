@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>航海英语学习应用</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ============ 认证页面 ============ -->
+        <div id="authPage" class="auth-container">
+            <div class="auth-header">
+                <h1>🌊 航海英语学习</h1>
+                <p>Maritime English Learning App</p>
+            </div>
+
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="login">登录</button>
+                <button class="tab-btn" data-tab="register">注册</button>
+            </div>
+
+            <div class="auth-forms">
+                <!-- 登录表单 -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label for="loginEmail">邮箱</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">密码</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-submit">登录</button>
+                    <div style="text-align: center; margin-top: 15px; font-size: 12px; color: #999;">
+                        试用账号: demo@maritime.com / 123456
+                    </div>
+                </form>
+
+                <!-- 注册表单 -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerUsername">用户名</label>
+                        <input type="text" id="registerUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">邮箱</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">密码</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword2">确认密码</label>
+                        <input type="password" id="registerPassword2" required>
+                    </div>
+                    <button type="submit" class="btn-submit">注册</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============ 主页面 ============ -->
+        <div id="mainPage">
+            <!-- 头部 -->
+            <div class="header">
+                <div class="header-title">🌊 航海英语学习</div>
+                <div class="header-info">
+                    <span class="user-name">欢迎, <span id="userName"></span></span>
+                    <button id="logoutBtn">退出登录</button>
+                </div>
+            </div>
+
+            <!-- 导航栏 -->
+            <div class="navigation">
+                <button class="nav-btn active" data-module="vocabulary">📚 词汇学习</button>
+                <button class="nav-btn" data-module="speaking">🎤 口语练习</button>
+                <button class="nav-btn" data-module="listening">👂 听力训练</button>
+                <button class="nav-btn" data-module="progress">📊 学习进度</button>
+            </div>
+
+            <!-- 内容区域 -->
+            <div class="content">
+                <!-- 词汇学习模块 -->
+                <div id="vocabularyModule" class="module active">
+                    <div class="vocabulary-container">
+                        <div class="filter-section">
+                            <label style="font-weight: 600; display: block; margin-bottom: 8px;">选择分类:</label>
+                            <select id="categoryFilter">
+                                <option value="">所有分类</option>
+                                <option value="通用术语">通用术语</option>
+                                <option value="天气条件">天气条件</option>
+                                <option value="船舶操作">船舶操作</option>
+                                <option value="紧急情况">紧急情况</option>
+                                <option value="通讯术语">通讯术语</option>
+                                <option value="导航设备">导航设备</option>
+                            </select>
+                        </div>
+
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                            <div class="progress-text">
+                                进度: <span id="wordCounter">0/0</span>
+                            </div>
+                        </div>
+
+                        <div class="word-card">
+                            <div class="word-english" id="wordEnglish">Word</div>
+                            <div class="word-pronunciation" id="wordPronunciation">/prəˈnansiˈeɪʃn/</div>
+                            <div class="word-details">
+                                <div class="word-part" id="wordPart">n.</div>
+                                <div class="word-chinese" id="wordChinese">词义</div>
+                                <div class="word-example" id="wordExample">例句</div>
+                            </div>
+                        </div>
+
+                        <div class="word-actions">
+                            <button id="pronounceBtn">🔊 发音</button>
+                        </div>
+
+                        <div class="word-actions">
+                            <button id="btnKnown" class="btn-action">✓ 认识</button>
+                            <button id="btnUnknown" class="btn-action">✗ 不认识</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 口语练习模块 -->
+                <div id="speakingModule" class="module">
+                    <div class="speaking-container">
+                        <div class="speaking-word-card">
+                            <div class="speaking-word-title">请跟读以下单词:</div>
+                            <div class="speaking-word" id="speakingWord">Word</div>
+                            <div class="speaking-translation" id="speakingTranslation">译文</div>
+                        </div>
+
+                        <div class="speaking-controls">
+                            <button id="btnRecord" class="btn-control">🔴 开始录音</button>
+                            <button id="btnStopRecord" class="btn-control">⏹ 停止录音</button>
+                            <button id="btnPlayAudio" class="btn-control">🔊 播放发音</button>
+                        </div>
+
+                        <div id="recordingInfo">正在录音...</div>
+
+                        <div id="recordingPlayback">
+                            <p style="margin-bottom: 10px; font-weight: 600;">您的录音:</p>
+                            <div class="playback-controls">
+                                <button id="btnPlayback">▶ 播放录音</button>
+                                <button id="btnClear">🗑 清除</button>
+                            </div>
+                        </div>
+
+                        <div id="speechScore">
+                            <div class="score-title">评分</div>
+                            <div class="score-value" id="scoreValue">0</div>
+                            <div class="score-feedback">很好的发音!</div>
+                        </div>
+
+                        <button id="btnNextSpeaking">下一个单词 →</button>
+                    </div>
+                </div>
+
+                <!-- 听力训练模块 -->
+                <div id="listeningModule" class="module">
+                    <div class="listening-container">
+                        <div class="listening-question-card">
+                            <div id="listeningQuestion">你将听到英文单词，请选择它的中文翻译</div>
+                            <button id="btnPlayListening">🔊 播放音频</button>
+                        </div>
+
+                        <div class="options">
+                            <button class="option-btn" data-index="0">A. 选项1</button>
+                            <button class="option-btn" data-index="1">B. 选项2</button>
+                            <button class="option-btn" data-index="2">C. 选项3</button>
+                            <button class="option-btn" data-index="3">D. 选项4</button>
+                        </div>
+
+                        <div id="listeningResult">
+                            <div id="resultText">✅ 正确!</div>
+                        </div>
+
+                        <button id="btnNextListening">下一题 →</button>
+                    </div>
+                </div>
+
+                <!-- 学习进度模块 -->
+                <div id="progressModule" class="module">
+                    <div class="progress-container">
+                        <h2 style="margin-bottom: 20px; color: #333;">📊 学习统计</h2>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalWords">0</div>
+                                <div class="stat-label">总词汇数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="masteredWords">0</div>
+                                <div class="stat-label">已掌握</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="progressPercentage">0%</div>
+                                <div class="stat-label">完成度</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="learningDays">1</div>
+                                <div class="stat-label">学习天数</div>
+                            </div>
+                        </div>
+
+                        <h3 class="progress-section-title">分类进度</h3>
+                        <div id="categoryProgress"></div>
+
+                        <h3 class="progress-section-title">最近学习</h3>
+                        <div id="recentList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vocabulary.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
